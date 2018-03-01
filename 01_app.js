@@ -138,15 +138,6 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 
 
 
-app.get('/peupler', (req, res) => {
-  db.collection('adresse').insertMany(peupler(), (err, result) => {
-  if (err) return console.log(err)
-    console.log('sauvegarder dans la BD')
-    res.redirect('/adresses')
-  })
-})
-
-
 /////////////////////////////////////////////////////////  Route /peupler
 app.get('/vider', (req, res) => {
 
