@@ -1,11 +1,12 @@
 {
 	"bonjours": "Hello",
-	"maison":"house",
-	"Accueil": "Home",
-	"Vider": "Empty",
-	"Adresse": "Address",
-	"Nom": "Last name",
-	"Prénom": "First name",
-	"Téléphone": "Phone",
-	"Courriel": "Email"
+	"maison": "house",
+	"accueil": "Home",
+	"vider": "Empty",
+	"adresse": "Address",
+	"nom": "Last name",
+	"prénom": "First name",
+	"téléphone": "Phone",
+	"courriel": "Email",
+	"prenom": "prenom"
 }

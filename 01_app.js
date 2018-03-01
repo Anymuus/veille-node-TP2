@@ -5,6 +5,7 @@ const app = express();
 const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient; // le pilote MongoDB
 const ObjectID = require('mongodb').ObjectID;
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 /* on associe le moteur de vue au module «ejs» */
 const cookieParser = require('cookie-parser')
@@ -22,20 +23,21 @@ app.use(i18n.init);
 
 /* Ajoute l'objet i18n à l'objet global «res» */
 
-app.get('/:locale(en|fr)',  (req, res) => {
+app.get('/:locale(fr|en)',  (req, res) => {
   // on récupère le paramètre de l'url pour enregistrer la langue
  
-  if(req.params.locale == 'undefined'){
+  /*if(req.params.locale == 'undefined'){
      res.cookie('langueChoisie' , 'fr')
      res.setLocale(req.params.locale)
   }else{
      res.cookie('langueChoisie' , req.params.locale)
      res.setLocale(req.params.locale)
-  }
-  
+  }*/
+  res.cookie('langueChoisie' , req.params.locale)
+  res.setLocale(req.params.locale)
   // on peut maintenant traduire
-  let leMotAtraduire = "bonjours"
-  console.log('res.__(leMotAtraduire) = ' + res.__(leMotAtraduire))
+
+  console.log('res.__(accueil) = ' + res.__('accueil'))
   res.render('accueil.ejs')
 })
 
