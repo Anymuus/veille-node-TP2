@@ -10,11 +10,21 @@
 				 <a href='/'><i class="fa fa fa-users" aria-hidden="true"></i>Accueil</a>
 				 <a href='/vider'><i class="fa fa-industry" aria-hidden="true"></i>Vider</a>
 				 <a href='/adresse'><i class="fa fa-graduation-cap" aria-hidden="true"></i>Adresse</a>
+				 <a href='/peupler'></i>Peuplement</a>
 			</nav> 
 			<form class='recherche'  action='/adresse' name="recherche" id="recherche">
 			    <input type="text" name="recherche" 
 			    value="<%= (typeof recherche == 'undefined')? '' : recherche %>">
 			    <button><i class="fas fa-search"></i></button>
+			    <%
+
+			    	if(getLocale() == "fr"){%>
+			    		<a href="/en">Anglais</a>
+			    	<%}else{%>
+			    		<a href="/fr">Français</a>
+			    	<%}		
+
+			    %>
 			</form>
 		</div> <!-- .menu -->
 	</div> <!-- fin barre de menu -->

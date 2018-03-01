@@ -7,11 +7,37 @@ const MongoClient = require('mongodb').MongoClient; // le pilote MongoDB
 const ObjectID = require('mongodb').ObjectID;
 app.use(bodyParser.urlencoded({extended: true}));
 /* on associe le moteur de vue au module «ejs» */
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
 app.use(express.static('public'));
+const i18n = require('i18n');
+i18n.configure({ 
+   locales : ['fr', 'en'],
+   cookie : 'langueChoisie', 
+   directory : __dirname + '/locales' })
+
+app.use(i18n.init);
 
 
 /* Ajoute l'objet i18n à l'objet global «res» */
 
+app.get('/:locale(en|fr)',  (req, res) => {
+  // on récupère le paramètre de l'url pour enregistrer la langue
+ 
+  if(req.params.locale == 'undefined'){
+     res.cookie('langueChoisie' , 'fr')
+     res.setLocale(req.params.locale)
+  }else{
+     res.cookie('langueChoisie' , req.params.locale)
+     res.setLocale(req.params.locale)
+  }
+  
+  // on peut maintenant traduire
+  let leMotAtraduire = "bonjours"
+  console.log('res.__(leMotAtraduire) = ' + res.__(leMotAtraduire))
+  res.render('accueil.ejs')
+})
 
 
 let db // variable qui contiendra le lien sur la BD
@@ -108,6 +134,17 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 })
 
 }) 
+
+
+
+
+app.get('/peupler', (req, res) => {
+  db.collection('adresse').insertMany(peupler(), (err, result) => {
+  if (err) return console.log(err)
+    console.log('sauvegarder dans la BD')
+    res.redirect('/adresses')
+  })
+})
 
 
 /////////////////////////////////////////////////////////  Route /peupler
