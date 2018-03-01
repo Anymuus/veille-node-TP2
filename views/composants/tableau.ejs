@@ -35,7 +35,50 @@
     <% } %>
 </table>
 
+<button id='testAJAX'>test AJAX</button>
 
+<script type="text/javascript">
+(function(){
+    
+    let elmBouton = document.getElementById('testAJAX')
+    elmBouton.addEventListener('click', ()=>{
+    console.log('ok')
+    xhr = new XMLHttpRequest();
+    xhr.open('POST', "ajax_modifier", true);
+    data = {
+        "nom" : "AAAA",
+        "prenom" : "BBBB",
+        "telephone" : "CCCC",  
+        "_id" : "5a980b37cc1547231c136cc3"
+    }
+    console.log(data)
+    sData = JSON.stringify(data);
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.send(sData);
+    xhr.addEventListener("readystatechange", traiterRequest, false);
+})
+    ////////////////////////////////
+    
+    
+function traiterRequest(e){
+    
+    console.log("xhr.readyState = " + xhr.readyState)
+    console.log("xhr.status = " + xhr.status)
+    if(xhr.readyState == 4 && xhr.status == 200){
+        
+        console.log('ajax fonctionne')
+        let  maReponse = JSON.parse(xhr.responseText);
+        console.log(xhr.responseText);
+        console.log(maReponse._id)
+    }
+}
+    
+})()  
+    // dans notre fichier .ejs
+// Notre code JavaScript pour effectuer un transfert AJAX
+
+
+</script>
 
 <script type="text/javascript">
     let elmModifier = document.querySelectorAll('.modifier')
@@ -64,23 +107,4 @@
 
 </script>
 
-    <button id='testAJAX'>test AJAX</button>
-
-    let elmBouton = document.getElementById('testAJAX')
     
-    elmBouton.addEventListener('click', ()=>{
-        console.log('ok')
-        xhr = new XMLHttpRequest();
-        xhr.open('POST', "testajax", true);
-        data = {
-        "nom" : "AAAA",
-        "prenom" : "BBBB",
-        "telephone" : "CCCC",
-        "_id" : "2114322222542542345"
-        }
-        console.log(data)
-        sData = JSON.stringify(data);
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(sData);
-        xhr.addEventListener("readystatechange", traiterRequest, false);
-    })
