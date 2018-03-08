@@ -39,41 +39,82 @@
 <!-- <button id='testAJAX'>test AJAX</button> -->
 
 <script type="text/javascript">
+
+/////////////////////////////////////////////////// ajax_Modifier
 (function(){
     
-    let elmModifier = document.getElementById('modif')
-    elmModifier.addEventListener('click', function(){
-    console.log('ok')
-    console.log();
-    xhr = new XMLHttpRequest();
-    xhr.open('POST', "ajax_modifier", true);
+    let collectionElmModifier = document.getElementsByClassName('modifier')
+    for (elmModifier of collectionElmModifier){
+
+           //  let elmModifier = document.getElementById('modif')
+            elmModifier.addEventListener('click', function(){
+
+            console.log('ok')
+            console.log();
+            xhr = new XMLHttpRequest();
+            xhr.open('POST', "ajax_modifier", true);
 
 
-        let laLigneData = this.parentNode.parentNode
-        let id = laLigneData.children[0].innerHTML
-        let nom = laLigneData.children[1].innerHTML
-        let prenom = laLigneData.children[2].innerHTML
-        let telephone = laLigneData.children[3].innerHTML
-        let courriel = laLigneData.children[4].innerHTML
+                let laLigneData = this.parentNode.parentNode
+                let id = laLigneData.children[0].innerHTML
+                let nom = laLigneData.children[1].innerHTML
+                let prenom = laLigneData.children[2].innerHTML
+                let telephone = laLigneData.children[3].innerHTML
+                let courriel = laLigneData.children[4].innerHTML
 
-        data = { 
-            "nom" : nom,
-            "prenom" : prenom,
-            "telephone" : telephone,
-            "courriel" : courriel,
-            "_id" : id 
+                data = { 
+                    "nom" : nom,
+                    "prenom" : prenom,
+                    "telephone" : telephone,
+                    "courriel" : courriel,
+                    "_id" : id 
+                }
+
+
+
+            console.log(data)
+            sData = JSON.stringify(data);
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.send(sData);
+            xhr.addEventListener("readystatechange", traiterRequest, false);
+        })
+    }
+
+
+////////////////////////////////////////////////////////////// Ajax_Ajouter
+
+let elmAjouter = document.querySelectorAll('.ajouter')   
+for (elm of elmAjouter) {
+    elm.addEventListener('click', function() {
+
+        let tableauPrincipal = document.querySelector('.tableau tbody');
+        let laLigne = document.createElement("TR")
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', "/ajax_ajouter", true);
+        data = {
+            "nom" : "",
+            "prenom" : "",
+            "telephone" : "",
+            "courriel" : ""
         }
+            
+        sData = JSON.stringify(data);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.send(sData);
+        console.log(sDAta)
+        xhr.addEventListener("readystatechange", function() {
+            let envoi = traiterRequest();
+            if(envoi != 0) {
+                let ligneVide = '<td >' + envoi + '</td>' + '<td contenteditable="true"></td>' + '<td contenteditable="true"></td>' + '<td contenteditable="true"></td>' + '<td contenteditable="true"></td>' + '<td><a class="supprimer" href="#"><i class="far fa-trash-alt"><i class="fas fa-trash-alt" aria-hidden="true"></i></a></td>' + '<td><a class="sauver" href="#"><i class="fas fa-save"></i></a></td>'
+                laLigne.innerHTML = ligneVide
+                tableauPrincipal.appendChild(laLigne);
+            }
+        }, false);   
+    })
+}
 
 
-
-    console.log(data)
-    sData = JSON.stringify(data);
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.send(sData);
-    xhr.addEventListener("readystatechange", traiterRequest, false);
-})
-
-////////////////////////////////
+//////////////////////////////////////////////////////////////// Ajax_Detruire
 
 let elmDetruire = document.querySelectorAll('.detruire')
 
@@ -101,8 +142,6 @@ for (elm of elmDetruire) {
         }   
     })
 }
-
-
 
 //////////////////////////////// Traiter Requete
     
