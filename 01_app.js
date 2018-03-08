@@ -138,8 +138,6 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 }) 
 
 
-
-
 /////////////////////////////////////////////////////////  Route /peupler
 app.get('/vider', (req, res) => {
 
@@ -163,4 +161,37 @@ app.post('/ajax_modifier', (req,res) => {
    // res.status(204)
    })
 })
+
+
+////////////////////////////////////////////////////////// Route /ajax_ajouter
+
+app.post('/ajax_ajouter', (req, res) => {
+  db.collection('adresse').save(req.body, (err, result) => {
+    if (err) return console.log(err)
+    console.log('sauvegarder dans la BD')
+    res.send(JSON.stringify(req.body))
+  })
+})
+
+
+////////////////////////////////////////////////////////// Route /ajax_supprimer
+
+app.post('/ajax_supprimer', (req, res) => {
+  db.collection('adresse').findOneAndDelete({"_id": ObjectID(req.body._id)}, (err, resultat) => {
+    if (err) return console.log(err)
+    console.log('supprimé de la BD')
+    res.send(JSON.stringify(req.body))
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
 

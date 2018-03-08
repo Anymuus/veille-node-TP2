@@ -11,8 +11,12 @@
   margin: 10px;
   width: 80px;
 }
+#frmUpdate{
+  visibility: hidden;
+}
 @media all and (min-width: 500px) {
   .formulaire {
     flex-direction: column;
   }
 }
+

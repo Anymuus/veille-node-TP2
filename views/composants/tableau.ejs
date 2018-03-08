@@ -29,35 +29,82 @@
         <td contenteditable='true'><%= elm.prenom %></td>
         <td contenteditable='true'><%= elm.telephone %></td>                
         <td contenteditable='true'><%= elm.courriel %></td>    
-        <td><a class="detruire" href="/detruire/<%= elm._id %>"><i class="fas fa-trash-alt" aria-hidden="true"></i></a></td>
-        <td><a class='modifier' href="#"><i class="far fa-save" aria-hidden="true"></i></a></td>
+        <!-- <td><a class="detruire" href="/detruire/<%= elm._id %>"><i class="fas fa-trash-alt" aria-hidden="true"></i></a></td> -->
+        <td><a id="supp" class='detruire' href="#"><i class="far fa-trash-alt"></i></a></td>
+        <td><a id="modif" class='modifier' href="#"><i class="far fa-save" aria-hidden="true"></i></a></td>
     </tr>
     <% } %>
 </table>
 
-<button id='testAJAX'>test AJAX</button>
+<!-- <button id='testAJAX'>test AJAX</button> -->
 
 <script type="text/javascript">
 (function(){
     
-    let elmBouton = document.getElementById('testAJAX')
-    elmBouton.addEventListener('click', ()=>{
+    let elmModifier = document.getElementById('modif')
+    elmModifier.addEventListener('click', function(){
     console.log('ok')
+    console.log();
     xhr = new XMLHttpRequest();
     xhr.open('POST', "ajax_modifier", true);
-    data = {
-        "nom" : "AAAA",
-        "prenom" : "BBBB",
-        "telephone" : "CCCC",  
-        "_id" : "5a980b37cc1547231c136cc3"
-    }
+
+
+        let laLigneData = this.parentNode.parentNode
+        let id = laLigneData.children[0].innerHTML
+        let nom = laLigneData.children[1].innerHTML
+        let prenom = laLigneData.children[2].innerHTML
+        let telephone = laLigneData.children[3].innerHTML
+        let courriel = laLigneData.children[4].innerHTML
+
+        data = { 
+            "nom" : nom,
+            "prenom" : prenom,
+            "telephone" : telephone,
+            "courriel" : courriel,
+            "_id" : id 
+        }
+
+
+
     console.log(data)
     sData = JSON.stringify(data);
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.send(sData);
     xhr.addEventListener("readystatechange", traiterRequest, false);
 })
-    ////////////////////////////////
+
+////////////////////////////////
+
+let elmDetruire = document.querySelectorAll('.detruire')
+
+for (elm of elmDetruire) {
+
+    elm.addEventListener('click', function() {
+
+        let laLigne = this.parentNode.parentNode    
+        let id = laLigne.children[0].innerHTML
+        console.log('ok')
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', "ajax_supprimer", true);
+        
+        data = {
+            "_id" : id
+        }
+            
+        sData = JSON.stringify(data);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.send(sData);
+        var envoi = xhr.addEventListener("readystatechange", traiterRequest, false);
+        //Spprime la ligne à détruire par l'utilisateur
+        if(envoi != 0) {
+            laLigne.parentNode.removeChild(laLigne);
+        }   
+    })
+}
+
+
+
+//////////////////////////////// Traiter Requete
     
     
 function traiterRequest(e){
@@ -80,7 +127,7 @@ function traiterRequest(e){
 
 </script>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     let elmModifier = document.querySelectorAll('.modifier')
     console.log(elmModifier.length)
     for (elm of elmModifier)
@@ -105,6 +152,6 @@ function traiterRequest(e){
             })
         }
 
-</script>
+</script> -->
 
     
