@@ -1,6 +1,13 @@
 const express = require('express');
 const fs = require('fs');
 const util = require("util");
+const http = require('http');
+
+////////////////////////////// socket.io ////////////////////////
+//const server = http.createServer(app);
+//const io = require('./mes_modules/chat_socket').listen(server);
+/////////////////////
+
 const app = express();
 const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient; // le pilote MongoDB
