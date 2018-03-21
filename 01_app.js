@@ -9,6 +9,7 @@ const http = require('http');
 /////////////////////
 
 const app = express();
+const peupler = require('./mes_modules/peupler');
 const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient; // le pilote MongoDB
 const ObjectID = require('mongodb').ObjectID;
@@ -145,7 +146,7 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 }) 
 
 
-/////////////////////////////////////////////////////////  Route /peupler
+/////////////////////////////////////////////////////////  Route /vider
 app.get('/vider', (req, res) => {
 
 	let cursor = db.collection('adresse').drop((err, res)=>{
@@ -155,6 +156,19 @@ app.get('/vider', (req, res) => {
 		})
 	res.redirect('/adresse')
 })
+
+
+////////////////////////////////////////////////////////  Route /peupler
+
+app.get('/peupler', (req, res) => {
+  db.collection('adresse').insertMany(peupler(), (err, result) => {
+  if (err) return console.log(err)
+    console.log('sauvegarder dans la BD')
+    res.redirect('/adresse')
+  })
+})
+
+
 
 
 ////////////////////////////////////////////////////////// Route /ajax_modifier
