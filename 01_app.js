@@ -4,7 +4,7 @@ const util = require("util");
 const http = require('http');
 
 ////////////////////////////// socket.io ////////////////////////
-//const server = http.createServer(app);
+//const server = require('http').createServer(app);
 //const io = require('./mes_modules/chat_socket').listen(server);
 /////////////////////
 
@@ -61,7 +61,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
  db = database.db('carnet_adresse')
 console.log('connexion à la BD')
 // lancement du serveur Express sur le port 8081
- app.listen(8081, (err) => {
+ server.listen(8081, (err) => {
  	if (err) console.log(err)
  console.log('connexion à la BD et on écoute sur le port 8081')
  })
@@ -213,10 +213,9 @@ app.post('/ajax_supprimer', (req, res) => {
 
 /////////////////////////////////////////////////////////// Route /socket_chat
 
-app.get('/chat', [interface_chat] {
-   
+app.get('/chat', (req, res) => {
 
-   
+  res.render('socket_vue.ejs')
 })
 
 
