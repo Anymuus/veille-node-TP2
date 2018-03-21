@@ -13,6 +13,8 @@ const peupler = require('./mes_modules/peupler');
 const bodyParser= require('body-parser');
 const MongoClient = require('mongodb').MongoClient; // le pilote MongoDB
 const ObjectID = require('mongodb').ObjectID;
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 /* on associe le moteur de vue au module «ejs» */
@@ -20,6 +22,8 @@ const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
 app.use(express.static('public'));
+app.set('view engine', 'ejs');
+
 const i18n = require('i18n');
 i18n.configure({ 
    locales : ['fr', 'en'],
@@ -49,7 +53,7 @@ app.get('/:locale(fr|en)',  (req, res) => {
   res.render('accueil.ejs')
 })
 
-
+/////////////////////////////////////////////////// BDD MongoDB ///////////////////////
 let db // variable qui contiendra le lien sur la BD
 
 MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
@@ -63,7 +67,7 @@ console.log('connexion à la BD')
  })
 })
 
-
+/////////////////////////////////////////////////////////////////////////////
 /*
 Les routes
 */
@@ -204,6 +208,17 @@ app.post('/ajax_supprimer', (req, res) => {
     res.send(JSON.stringify(req.body))
   })
 })
+
+
+
+/////////////////////////////////////////////////////////// Route /socket_chat
+
+app.get('/chat', [interface_chat] {
+   
+
+   
+})
+
 
 
 
